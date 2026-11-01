@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+  airflow-webserver:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: webserver
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      AWS_DEFAULT_REGION: us-east-2
+      AWS_REGION: us-east-2
+      DATA_LAKE_BUCKET: data-lake-arquitecturas-luismi-2026
+    volumes:
+      - ../dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ../src/scripts:/opt/airflow/scripts
+      - ../src/config:/opt/airflow/config
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  airflow-scheduler:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: scheduler
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      AWS_DEFAULT_REGION: us-east-2
+      AWS_REGION: us-east-2
+      DATA_LAKE_BUCKET: data-lake-arquitecturas-luismi-2026
+    volumes:
+      - ../dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ../src/scripts:/opt/airflow/scripts
+      - ../src/config:/opt/airflow/config
+    restart: unless-stopped
+
+volumes:
+  postgres-db-volume:

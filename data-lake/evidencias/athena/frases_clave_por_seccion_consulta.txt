@@ -1,0 +1,33 @@
+
+WITH frases_por_seccion AS (
+    SELECT
+        n.section AS seccion,
+        k.key_phrase AS frase_clave,
+        COUNT(DISTINCT k.news_id) AS total_noticias,
+        ROUND(AVG(k.confidence_score), 4) AS confianza_promedio
+    FROM data_lake_noticias.news_key_phrases k
+    INNER JOIN data_lake_noticias.news n
+        ON k.news_id = n.news_id
+       AND k.processing_date = n.processing_date
+    WHERE k.processing_date = '2026-10-28'
+      AND n.processing_date = '2026-10-28'
+    GROUP BY n.section, k.key_phrase
+),
+clasificacion AS (
+    SELECT
+        *,
+        ROW_NUMBER() OVER (
+            PARTITION BY seccion
+            ORDER BY total_noticias DESC, frase_clave
+        ) AS posicion
+    FROM frases_por_seccion
+)
+SELECT
+    seccion,
+    posicion,
+    frase_clave,
+    total_noticias,
+    confianza_promedio
+FROM clasificacion
+WHERE posicion <= 10
+ORDER BY seccion, posicion;

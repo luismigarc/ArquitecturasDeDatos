@@ -1,0 +1,69 @@
+{
+  "batch_id": "manual__20261031T181758Z",
+  "history": [
+    {
+      "status": "EXTRACTED",
+      "at_utc": "2026-10-31T18:18:13.951309+00:00",
+      "processing_id": "manual__20261031T181758Z"
+    },
+    {
+      "status": "LOADED",
+      "at_utc": "2026-10-31T18:18:22.211392+00:00",
+      "processing_id": "manual__20261031T181758Z"
+    },
+    {
+      "status": "FAILED",
+      "at_utc": "2026-10-31T18:19:21.147378+00:00",
+      "processing_id": "manual__20261031T181758Z",
+      "failed_tasks": [
+        "dbt_run_marts",
+        "dbt_test",
+        "reconcile_sales_kpi",
+        "refresh_quicksight"
+      ]
+    }
+  ],
+  "processing_id": "manual__20261031T181758Z",
+  "rows": {
+    "customers": 54,
+    "products": 27,
+    "orders": 3,
+    "order_items": 3,
+    "reviews": 3,
+    "navigation_events": 3
+  },
+  "status": "FAILED",
+  "updated_at_utc": "2026-10-31T18:19:21.147378+00:00",
+  "loaded": {
+    "customers": {
+      "rows": 54,
+      "replaced_previous": 0
+    },
+    "products": {
+      "rows": 27,
+      "replaced_previous": 0
+    },
+    "orders": {
+      "rows": 3,
+      "replaced_previous": 0
+    },
+    "order_items": {
+      "rows": 3,
+      "replaced_previous": 0
+    },
+    "reviews": {
+      "rows": 3,
+      "replaced_previous": 0
+    },
+    "navigation_events": {
+      "rows": 3,
+      "replaced_previous": 0
+    }
+  },
+  "failed_tasks": [
+    "dbt_run_marts",
+    "dbt_test",
+    "reconcile_sales_kpi",
+    "refresh_quicksight"
+  ]
+}

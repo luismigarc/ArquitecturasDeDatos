@@ -1,0 +1,7 @@
+>> SELECT customer_id, city, department, valid_from, valid_to, is_current FROM marts.dim_customer WHERE customer_id = 1 ORDER BY valid_from
+customer_id | city     | department   | valid_from          | valid_to            | is_current
+------------+----------+--------------+---------------------+---------------------+-----------
+1           | Bogotá   | Bogotá, D.C. | 2024-11-10 00:00:00 | 2025-07-01 00:00:00 | False     
+1           | Medellín | Antioquia    | 2025-07-01 00:00:00 |                     | True      
+(2 filas)
+

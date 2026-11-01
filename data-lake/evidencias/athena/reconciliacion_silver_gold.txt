@@ -1,0 +1,24 @@
+
+WITH silver AS (
+    SELECT
+        COUNT(DISTINCT news_id) AS total_noticias
+    FROM data_lake_noticias.news
+    WHERE processing_date = '2026-10-28'
+),
+gold AS (
+    SELECT
+        SUM(distinct_news_count) AS total_noticias
+    FROM data_lake_noticias.news_daily
+    WHERE processing_date = '2026-10-28'
+)
+SELECT
+    silver.total_noticias AS noticias_silver,
+    gold.total_noticias AS noticias_gold,
+    silver.total_noticias - gold.total_noticias AS diferencia,
+    CASE
+        WHEN silver.total_noticias = gold.total_noticias
+        THEN 'RECONCILIACION OK'
+        ELSE 'REVISAR DATOS'
+    END AS resultado
+FROM silver
+CROSS JOIN gold;

@@ -1,0 +1,7 @@
+>> SELECT product_id, category, valid_from, valid_to, is_current FROM marts.dim_product WHERE product_id = 1 ORDER BY valid_from
+product_id | category    | valid_from          | valid_to            | is_current
+-----------+-------------+---------------------+---------------------+-----------
+1          | Electrónica | 2025-01-01 00:00:00 | 2025-07-01 00:00:00 | False     
+1          | Hogar       | 2025-07-01 00:00:00 |                     | True      
+(2 filas)
+

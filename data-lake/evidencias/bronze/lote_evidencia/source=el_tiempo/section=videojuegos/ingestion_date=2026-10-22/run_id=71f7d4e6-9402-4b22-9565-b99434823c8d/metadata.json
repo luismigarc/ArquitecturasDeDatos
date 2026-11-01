@@ -1,0 +1,11 @@
+{
+  "run_id": "71f7d4e6-9402-4b22-9565-b99434823c8d",
+  "source": "el_tiempo",
+  "section": "videojuegos",
+  "url": "https://www.eltiempo.com/rss/tecnosfera_videojuegos.xml",
+  "ingestion_timestamp_utc": "2026-10-22T12:06:00.407695+00:00",
+  "http_status": 200,
+  "content_hash_sha256": "c49a102f3360484eadaba3fa49ef755b05d8136ec100fd39bfdf076e1c83abf3",
+  "original_file": "/home/luismi/data-lake/data/bronze/source=el_tiempo/section=videojuegos/ingestion_date=2026-10-22/run_id=71f7d4e6-9402-4b22-9565-b99434823c8d/rss.xml",
+  "status": "SUCCESS"
+}

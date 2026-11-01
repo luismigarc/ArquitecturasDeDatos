@@ -1,0 +1,25 @@
+# Sin secretos: todo sale de variables de entorno (en la EC2, docker/.env generado desde SSM).
+ecommerce_dw:
+  target: "{{ env_var('DBT_TARGET', 'redshift') }}"
+  outputs:
+    redshift:
+      type: redshift
+      host: "{{ env_var('REDSHIFT_HOST', 'localhost') }}"
+      port: "{{ env_var('REDSHIFT_PORT', '5439') | as_number }}"
+      user: "{{ env_var('REDSHIFT_USER', 'admin') }}"
+      password: "{{ env_var('REDSHIFT_PASSWORD', '') }}"
+      dbname: "{{ env_var('REDSHIFT_DB', 'dev') }}"
+      schema: intermediate
+      threads: 4
+      sslmode: require
+      connect_timeout: 30
+    # Sólo para pruebas locales del proyecto (PostgreSQL), ver tests/test_dbt_postgres.sh
+    pgtest:
+      type: postgres
+      host: "{{ env_var('REDSHIFT_HOST', 'localhost') }}"
+      port: "{{ env_var('REDSHIFT_PORT', '5432') | as_number }}"
+      user: "{{ env_var('REDSHIFT_USER', 'postgres') }}"
+      password: "{{ env_var('REDSHIFT_PASSWORD', '') }}"
+      dbname: "{{ env_var('REDSHIFT_DB', 'dev') }}"
+      schema: intermediate
+      threads: 4

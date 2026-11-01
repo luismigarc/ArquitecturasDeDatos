@@ -1,0 +1,141 @@
+>> SELECT 'mysql_orders' AS tabla, _batch_id, count(*) AS filas, min(_extracted_at) AS extraido_utc FROM "raw".mysql_orders GROUP BY 1, 2 UNION ALL SELECT 'mysql_o
+tabla                   | _batch_id                | filas | extraido_utc              
+------------------------+--------------------------+-------+---------------------------
+mysql_orders            | manual__20261031T165827Z | 106   | 2026-10-31 16:58:49.676638
+mongo_reviews           | manual__20261031T165827Z | 158   | 2026-10-31 16:58:49.656548
+mongo_navigation_events | manual__20261031T165827Z | 508   | 2026-10-31 16:58:49.648678
+mysql_order_items       | manual__20261031T165827Z | 259   | 2026-10-31 16:58:49.645724
+(4 filas)
+
+>> SELECT 'order_items' AS entidad, (SELECT count(*) FROM intermediate.stg_mysql__order_items) AS stg, (SELECT count(*) FROM intermediate.int_mysql__order_items__v
+entidad           | stg | valid | quarantine
+------------------+-----+-------+-----------
+reviews           | 158 | 150   | 8         
+order_items       | 259 | 253   | 6         
+navigation_events | 508 | 500   | 8         
+(3 filas)
+
+>> SELECT 'customers' AS entidad, customer_id AS id, rejection_reason, _batch_id FROM quarantine.quarantine_mysql__customers UNION ALL SELECT 'orders', order_id, r
+entidad     | id     | rejection_reason      | _batch_id               
+------------+--------+-----------------------+-------------------------
+customers   | 800000 | missing_name          | manual__20261031T165827Z
+customers   | 800001 | invalid_email         | manual__20261031T165827Z
+customers   | 800002 | missing_name          | manual__20261031T165827Z
+customers   | 800003 | invalid_email         | manual__20261031T165827Z
+events      | 800000 | invalid_event_type    | manual__20261031T165827Z
+events      | 800001 | missing_occurred_at   | manual__20261031T165827Z
+events      | 800002 | orphan_customer       | manual__20261031T165827Z
+events      | 800003 | orphan_product        | manual__20261031T165827Z
+events      | 800004 | invalid_event_type    | manual__20261031T165827Z
+events      | 800005 | missing_occurred_at   | manual__20261031T165827Z
+events      | 800006 | orphan_customer       | manual__20261031T165827Z
+events      | 800007 | orphan_product        | manual__20261031T165827Z
+order_items | 800000 | orphan_order          | manual__20261031T165827Z
+order_items | 800001 | orphan_product        | manual__20261031T165827Z
+order_items | 800002 | subtotal_mismatch     | manual__20261031T165827Z
+order_items | 800003 | orphan_order          | manual__20261031T165827Z
+order_items | 800004 | orphan_product        | manual__20261031T165827Z
+order_items | 800005 | subtotal_mismatch     | manual__20261031T165827Z
+orders      | 800000 | orphan_customer       | manual__20261031T165827Z
+orders      | 800001 | invalid_sales_channel | manual__20261031T165827Z
+orders      | 800003 | orphan_customer       | manual__20261031T165827Z
+orders      | 800004 | invalid_sales_channel | manual__20261031T165827Z
+reviews     | 800000 | invalid_rating        | manual__20261031T165827Z
+reviews     | 800001 | missing_reviewed_at   | manual__20261031T165827Z
+reviews     | 800002 | orphan_customer       | manual__20261031T165827Z
+reviews     | 800003 | orphan_product        | manual__20261031T165827Z
+reviews     | 800004 | invalid_rating        | manual__20261031T165827Z
+reviews     | 800005 | missing_reviewed_at   | manual__20261031T165827Z
+reviews     | 800006 | orphan_customer       | manual__20261031T165827Z
+reviews     | 800007 | orphan_product        | manual__20261031T165827Z
+(30 filas)
+
+>> SELECT 'fct_sales' AS hecho, count(*) AS filas, count(DISTINCT sale_sk) AS llaves, sum(subtotal) AS total FROM marts.fct_sales UNION ALL SELECT 'fct_reviews', c
+hecho                 | filas | llaves | total     
+----------------------+-------+--------+-----------
+fct_navigation_events | 500   | 500    |           
+fct_sales             | 253   | 253    | 7293790.26
+fct_reviews           | 150   | 150    |           
+(3 filas)
+
+>> SELECT customer_id, city, department, valid_from, valid_to, is_current FROM marts.dim_customer WHERE customer_id = 1 ORDER BY valid_from
+customer_id | city   | department   | valid_from          | valid_to | is_current
+------------+--------+--------------+---------------------+----------+-----------
+1           | Bogotá | Bogotá, D.C. | 2024-11-10 00:00:00 |          | True      
+(1 filas)
+
+>> SELECT product_id, category, valid_from, valid_to, is_current FROM marts.dim_product WHERE product_id = 1 ORDER BY valid_from
+product_id | category    | valid_from          | valid_to | is_current
+-----------+-------------+---------------------+----------+-----------
+1          | Electrónica | 2025-01-01 00:00:00 |          | True      
+(1 filas)
+
+>> SELECT customer_id, count(*) FROM marts.dim_customer WHERE is_current GROUP BY customer_id HAVING count(*) > 1
+customer_id | count
+------------+------
+(0 filas)
+
+>> SELECT anio, mes, departamento, sum(ventas) AS ventas FROM marts.rpt_sales GROUP BY 1, 2, 3 ORDER BY 1, 2, 4 DESC
+anio | mes | departamento    | ventas   
+-----+-----+-----------------+----------
+2025 | 1   | Atlántico       | 293388.55
+2025 | 1   | Risaralda       | 168858.30
+2025 | 1   | Bogotá, D.C.    | 119438.85
+2025 | 1   | Bolívar         | 13434.57 
+2025 | 1   | Antioquia       | 12325.28 
+2025 | 1   | Santander       | 8357.93  
+2025 | 2   | Atlántico       | 228126.17
+2025 | 2   | Bogotá, D.C.    | 145943.80
+2025 | 2   | Antioquia       | 132096.86
+2025 | 3   | Risaralda       | 219832.22
+2025 | 3   | Valle del Cauca | 142045.43
+2025 | 3   | Cundinamarca    | 132822.18
+2025 | 3   | Santander       | 93468.38 
+2025 | 3   | Antioquia       | 74718.31 
+2025 | 3   | Atlántico       | 16715.86 
+2025 | 4   | Atlántico       | 319358.52
+2025 | 4   | Bogotá, D.C.    | 176742.34
+2025 | 4   | Risaralda       | 33582.83 
+2025 | 4   | Antioquia       | 32497.97 
+2025 | 4   | Bolívar         | 6950.83  
+2025 | 5   | Atlántico       | 221922.99
+2025 | 5   | Bogotá, D.C.    | 206537.39
+2025 | 5   | Cundinamarca    | 141149.20
+2025 | 5   | Antioquia       | 72324.15 
+2025 | 5   | Risaralda       | 56681.20 
+2025 | 6   | Atlántico       | 207272.84
+2025 | 6   | Santander       | 110575.26
+2025 | 6   | Bogotá, D.C.    | 80586.67 
+2025 | 6   | Risaralda       | 69210.28 
+2025 | 7   | Risaralda       | 181070.13
+2025 | 7   | Santander       | 111863.20
+2025 | 7   | Bogotá, D.C.    | 96222.36 
+2025 | 7   | Atlántico       | 78585.72 
+2025 | 7   | Valle del Cauca | 22524.60 
+2025 | 8   | Atlántico       | 262427.51
+2025 | 8   | Bogotá, D.C.    | 254887.38
+2025 | 8   | Cundinamarca    | 81995.65 
+2025 | 8   | Santander       | 48063.81 
+2025 | 8   | Valle del Cauca | 44315.79 
+2025 | 9   | Cundinamarca    | 180583.31
+2025 | 9   | Santander       | 138396.69
+2025 | 9   | Atlántico       | 113945.26
+2025 | 9   | Valle del Cauca | 104935.03
+2025 | 9   | Risaralda       | 55120.74 
+2025 | 10  | Cundinamarca    | 334011.32
+2025 | 10  | Bogotá, D.C.    | 130710.24
+2025 | 10  | Atlántico       | 65427.52 
+2025 | 10  | Antioquia       | 64158.24 
+2025 | 10  | Valle del Cauca | 41098.66 
+2025 | 10  | Risaralda       | 28313.62 
+2025 | 11  | Santander       | 145225.37
+2025 | 11  | Risaralda       | 122433.70
+2025 | 11  | Atlántico       | 103195.50
+2025 | 11  | Antioquia       | 93298.22 
+2025 | 11  | Cundinamarca    | 85231.68 
+2025 | 12  | Bogotá, D.C.    | 271015.67
+2025 | 12  | Santander       | 257088.78
+2025 | 12  | Atlántico       | 170696.67
+2025 | 12  | Cundinamarca    | 69982.73 
+(59 filas)
+

@@ -1,0 +1,42 @@
+>> SELECT sum(ventas) AS ventas_totales, sum(unidades) AS unidades, count(*) AS lineas FROM marts.rpt_sales
+ventas_totales | unidades | lineas
+---------------+----------+-------
+7420730.58     | 647      | 259   
+(1 filas)
+
+>> SELECT sum(ventas) AS ventas_totales_electronica FROM marts.rpt_sales WHERE categoria = 'Electrónica'
+ventas_totales_electronica
+--------------------------
+541641.20                 
+(1 filas)
+
+>> SELECT anio, mes, sum(ventas) AS ventas FROM marts.rpt_sales GROUP BY anio, mes ORDER BY anio, mes
+anio | mes | ventas   
+-----+-----+----------
+2025 | 1   | 615803.48
+2025 | 2   | 506166.83
+2025 | 3   | 679602.38
+2025 | 4   | 569132.49
+2025 | 5   | 698614.93
+2025 | 6   | 467645.05
+2025 | 7   | 490266.01
+2025 | 8   | 691690.14
+2025 | 9   | 592981.03
+2025 | 10  | 663719.60
+2025 | 11  | 549384.47
+2025 | 12  | 768783.85
+2026 | 1   | 126940.32
+(13 filas)
+
+>> SELECT max(_extracted_at) AS ultima_extraccion_utc, count(distinct _batch_id) AS lotes_en_raw FROM "raw".mysql_order_items
+ultima_extraccion_utc      | lotes_en_raw
+---------------------------+-------------
+2026-10-31 18:18:06.880309 | 3           
+(1 filas)
+
+>> SELECT (SELECT sum(subtotal) FROM intermediate.int_mysql__order_items__valid) AS origen_valido, (SELECT sum(subtotal) FROM marts.fct_sales) AS modelo_fct_sales,
+origen_valido | modelo_fct_sales | vista_dashboard
+--------------+------------------+----------------
+7420730.58    | 7420730.58       | 7420730.58     
+(1 filas)
+

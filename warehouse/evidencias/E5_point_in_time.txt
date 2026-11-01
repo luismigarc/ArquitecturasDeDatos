@@ -1,0 +1,7 @@
+>> SELECT CASE WHEN r.fecha < '2025-07-01' THEN 'antes' ELSE 'despues' END AS periodo, r.ciudad, count(*) AS lineas, sum(r.ventas) AS ventas FROM marts.rpt_sales r
+periodo | ciudad   | lineas | ventas  
+--------+----------+--------+---------
+antes   | Bogotá   | 1      | 453.33  
+despues | Medellín | 3      | 49060.30
+(2 filas)
+

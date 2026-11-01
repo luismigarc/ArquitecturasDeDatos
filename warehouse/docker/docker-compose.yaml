@@ -1,0 +1,81 @@
+# Airflow 2.11 + dbt-redshift en UNA instancia EC2. Las fuentes (RDS, DocumentDB) y el warehouse
+# (Redshift Serverless) son servicios administrados de AWS: aquí sólo corre el orquestador.
+# docker/.env lo genera el user data de la EC2 a partir de SSM Parameter Store (sin secretos en git).
+x-airflow-common: &airflow-common
+  build: .
+  image: tallerdw-airflow:2.11.2
+  env_file: .env
+  environment: &airflow-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${POSTGRES_PASSWORD}@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY}
+    AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_WEBSERVER_SECRET_KEY}
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "false"
+    AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
+    PYTHONPATH: /opt/airflow/src
+    PIPELINE_HOME: /opt/airflow/src
+    DBT_PROJECT_DIR: /opt/airflow/src/dbt
+    MYSQL_SSL_CA: /opt/certs/global-bundle.pem
+  volumes:
+    - ../dags:/opt/airflow/dags
+    - ../src:/opt/airflow/src
+    - ../tools:/opt/airflow/tools
+    - ../sql:/opt/airflow/sql
+    - ./logs:/opt/airflow/logs
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on: &airflow-depends
+    postgres:
+      condition: service_healthy
+
+services:
+  postgres:                # sólo metadatos de Airflow; no guarda datos del negocio
+    image: postgres:16
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+    restart: always
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      <<: *airflow-depends
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    restart: always
+    depends_on:
+      <<: *airflow-depends
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: /bin/bash
+    user: "0:0"
+    command:
+      - -c
+      - |
+        mkdir -p /opt/airflow/logs && chown -R "$${AIRFLOW_UID:-50000}:0" /opt/airflow/logs
+        airflow db migrate
+        airflow users create --role Admin --username "$${AIRFLOW_ADMIN_USER}" --password "$${AIRFLOW_ADMIN_PASSWORD}" \
+          --firstname Admin --lastname EIA --email admin@example.com || true
+        echo "airflow-init OK"
+
+volumes:
+  postgres-db:

@@ -1,0 +1,11 @@
+{
+  "run_id": "71f7d4e6-9402-4b22-9565-b99434823c8d",
+  "source": "el_tiempo",
+  "section": "tecnologia",
+  "url": "https://www.eltiempo.com/rss/tecnosfera_novedades-tecnologia.xml",
+  "ingestion_timestamp_utc": "2026-10-22T12:06:00.220399+00:00",
+  "http_status": 200,
+  "content_hash_sha256": "331639c959ac2499436403ec3d0016584efc4e52d39192ccf85b2f4de526c86a",
+  "original_file": "/home/luismi/data-lake/data/bronze/source=el_tiempo/section=tecnologia/ingestion_date=2026-10-22/run_id=71f7d4e6-9402-4b22-9565-b99434823c8d/rss.xml",
+  "status": "SUCCESS"
+}

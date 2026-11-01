@@ -1,0 +1,113 @@
+{
+  "batch_id": "manual__20261031T165827Z",
+  "history": [
+    {
+      "status": "FAILED",
+      "at_utc": "2026-10-31T17:01:44.448787+00:00",
+      "processing_id": "manual__20261031T165827Z",
+      "failed_tasks": [
+        "load_raw_redshift",
+        "dbt_deps",
+        "dbt_seed",
+        "dbt_run_intermediate",
+        "dbt_run_quarantine",
+        "dbt_snapshot",
+        "register_batch",
+        "dbt_run_marts",
+        "dbt_test",
+        "reconcile_sales_kpi",
+        "refresh_quicksight",
+        "extract_mysql_products"
+      ]
+    },
+    {
+      "status": "EXTRACTED",
+      "at_utc": "2026-10-31T17:08:38.056516+00:00",
+      "processing_id": "manual__20261031T165827Z"
+    },
+    {
+      "status": "FAILED",
+      "at_utc": "2026-10-31T17:11:23.312279+00:00",
+      "processing_id": "manual__20261031T165827Z",
+      "failed_tasks": [
+        "dbt_run_intermediate",
+        "dbt_run_quarantine",
+        "load_raw_redshift",
+        "dbt_deps",
+        "dbt_seed",
+        "dbt_snapshot",
+        "dbt_run_marts",
+        "dbt_test",
+        "reconcile_sales_kpi",
+        "refresh_quicksight"
+      ]
+    },
+    {
+      "status": "LOADED",
+      "at_utc": "2026-10-31T17:22:09.715298+00:00",
+      "processing_id": "manual__20261031T165827Z"
+    },
+    {
+      "status": "PROCESSED",
+      "at_utc": "2026-10-31T17:23:35.443450+00:00",
+      "processing_id": "manual__20261031T165827Z",
+      "failed_tasks": []
+    }
+  ],
+  "processing_id": "manual__20261031T165827Z",
+  "failed_tasks": [],
+  "status": "PROCESSED",
+  "updated_at_utc": "2026-10-31T17:23:35.443450+00:00",
+  "rows": {
+    "customers": 54,
+    "products": 27,
+    "orders": 106,
+    "order_items": 259,
+    "reviews": 158,
+    "navigation_events": 508
+  },
+  "loaded": {
+    "customers": {
+      "rows": 54,
+      "replaced_previous": 0
+    },
+    "products": {
+      "rows": 27,
+      "replaced_previous": 0
+    },
+    "orders": {
+      "rows": 106,
+      "replaced_previous": 0
+    },
+    "order_items": {
+      "rows": 259,
+      "replaced_previous": 0
+    },
+    "reviews": {
+      "rows": 158,
+      "replaced_previous": 0
+    },
+    "navigation_events": {
+      "rows": 508,
+      "replaced_previous": 0
+    }
+  },
+  "watermarks_advanced": {
+    "orders": {
+      "from": 0,
+      "to": 800005
+    },
+    "order_items": {
+      "from": 0,
+      "to": 800005
+    },
+    "reviews": {
+      "from": 0,
+      "to": 800007
+    },
+    "navigation_events": {
+      "from": 0,
+      "to": 800007
+    }
+  }
+}

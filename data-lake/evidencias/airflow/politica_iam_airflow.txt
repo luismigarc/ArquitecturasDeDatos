@@ -1,0 +1,55 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "DataLakeS3",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::data-lake-arquitecturas-luismi-2026",
+                "arn:aws:s3:::data-lake-arquitecturas-luismi-2026/*"
+            ]
+        },
+        {
+            "Sid": "Comprehend",
+            "Effect": "Allow",
+            "Action": [
+                "comprehend:DetectDominantLanguage",
+                "comprehend:DetectEntities",
+                "comprehend:DetectKeyPhrases"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "GlueCrawler",
+            "Effect": "Allow",
+            "Action": [
+                "glue:StartCrawler",
+                "glue:GetCrawler",
+                "glue:GetDatabase",
+                "glue:GetDatabases",
+                "glue:GetTable",
+                "glue:GetTables",
+                "glue:GetPartitions"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Athena",
+            "Effect": "Allow",
+            "Action": [
+                "athena:StartQueryExecution",
+                "athena:GetQueryExecution",
+                "athena:GetQueryResults",
+                "athena:StopQueryExecution"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

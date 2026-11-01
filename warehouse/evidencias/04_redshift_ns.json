@@ -1,0 +1,7 @@
+{
+    "Estado": "AVAILABLE",
+    "Roles": [
+        "IamRole(applyStatus=in-sync, iamRoleArn=arn:aws:iam::129898048658:role/tallerdw-redshift-s3-role)"
+    ],
+    "RolDefecto": "arn:aws:iam::129898048658:role/tallerdw-redshift-s3-role"
+}

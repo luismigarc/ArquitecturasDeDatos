@@ -1,0 +1,22 @@
+version: 2
+
+# raw acumula TODOS los lotes cargados con COPY (columna _batch_id). Staging elige la versión vigente.
+sources:
+  - name: mysql_raw
+    schema: raw
+    tables:
+      - name: mysql_customers
+        description: Copia completa de customers en cada lote (extracción full).
+      - name: mysql_products
+        description: Copia completa de products en cada lote (extracción full).
+      - name: mysql_orders
+        description: Pedidos nuevos por lote (extracción incremental por order_id).
+      - name: mysql_order_items
+        description: Líneas nuevas por lote (extracción incremental por order_item_id).
+  - name: mongodb_raw
+    schema: raw
+    tables:
+      - name: mongo_reviews
+        description: Reseñas nuevas por lote (incremental por review_id). Fechas en UTC.
+      - name: mongo_navigation_events
+        description: Eventos nuevos por lote (incremental por event_id). Fechas en UTC.

@@ -1,0 +1,10 @@
+>> SELECT 'fct_sales' AS t, count(*) AS filas, count(DISTINCT sale_sk) AS llaves, sum(subtotal) AS total FROM marts.fct_sales UNION ALL SELECT 'fct_reviews', count
+t                     | filas | llaves | total     
+----------------------+-------+--------+-----------
+dim_customer          | 51    | 51     |           
+fct_sales             | 256   | 256    | 7357260.42
+fct_reviews           | 153   | 153    |           
+dim_product           | 26    | 26     |           
+fct_navigation_events | 503   | 503    |           
+(5 filas)
+

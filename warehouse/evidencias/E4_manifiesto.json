@@ -1,0 +1,85 @@
+{
+  "batch_id": "manual__20261031T180718Z",
+  "extraction_mode": "incremental",
+  "registered_at_utc": "2026-10-31T18:07:40.621152+00:00",
+  "entities": {
+    "customers": {
+      "status": "OK",
+      "batch_id": "manual__20261031T180718Z",
+      "source": "mysql",
+      "entity": "customers",
+      "mode": "full",
+      "watermark_from": null,
+      "max_key": 800003,
+      "rows": 54,
+      "extracted_at_utc": "2026-10-31T18:07:26.372898Z",
+      "s3_key": "raw/mysql/customers/batch_id=manual__20261031T180718Z/part-00000.parquet",
+      "reused": false
+    },
+    "products": {
+      "status": "OK",
+      "batch_id": "manual__20261031T180718Z",
+      "source": "mysql",
+      "entity": "products",
+      "mode": "full",
+      "watermark_from": null,
+      "max_key": 800001,
+      "rows": 27,
+      "extracted_at_utc": "2026-10-31T18:07:26.303819Z",
+      "s3_key": "raw/mysql/products/batch_id=manual__20261031T180718Z/part-00000.parquet",
+      "reused": false
+    },
+    "orders": {
+      "status": "OK",
+      "batch_id": "manual__20261031T180718Z",
+      "source": "mysql",
+      "entity": "orders",
+      "mode": "incremental",
+      "watermark_from": 800005,
+      "max_key": 1000012,
+      "rows": 3,
+      "extracted_at_utc": "2026-10-31T18:07:26.490410Z",
+      "s3_key": "raw/mysql/orders/batch_id=manual__20261031T180718Z/part-00000.parquet",
+      "reused": false
+    },
+    "order_items": {
+      "status": "OK",
+      "batch_id": "manual__20261031T180718Z",
+      "source": "mysql",
+      "entity": "order_items",
+      "mode": "incremental",
+      "watermark_from": 800005,
+      "max_key": 10000012,
+      "rows": 3,
+      "extracted_at_utc": "2026-10-31T18:07:26.003663Z",
+      "s3_key": "raw/mysql/order_items/batch_id=manual__20261031T180718Z/part-00000.parquet",
+      "reused": false
+    },
+    "reviews": {
+      "status": "OK",
+      "batch_id": "manual__20261031T180718Z",
+      "source": "mongodb",
+      "entity": "reviews",
+      "mode": "incremental",
+      "watermark_from": 800007,
+      "max_key": 1000012,
+      "rows": 3,
+      "extracted_at_utc": "2026-10-31T18:07:26.100218Z",
+      "s3_key": "raw/mongodb/reviews/batch_id=manual__20261031T180718Z/part-00000.parquet",
+      "reused": false
+    },
+    "navigation_events": {
+      "status": "OK",
+      "batch_id": "manual__20261031T180718Z",
+      "source": "mongodb",
+      "entity": "navigation_events",
+      "mode": "incremental",
+      "watermark_from": 800007,
+      "max_key": 1000012,
+      "rows": 3,
+      "extracted_at_utc": "2026-10-31T18:07:26.250341Z",
+      "s3_key": "raw/mongodb/navigation_events/batch_id=manual__20261031T180718Z/part-00000.parquet",
+      "reused": false
+    }
+  }
+}

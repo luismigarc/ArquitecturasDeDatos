@@ -1,0 +1,19 @@
+{
+  "sources": [
+    {
+      "source": "el_tiempo",
+      "section": "tecnologia",
+      "url": "https://www.eltiempo.com/rss/tecnosfera_novedades-tecnologia.xml"
+    },
+    {
+      "source": "el_tiempo",
+      "section": "videojuegos",
+      "url": "https://www.eltiempo.com/rss/tecnosfera_videojuegos.xml"
+    },
+    {
+      "source": "el_tiempo",
+      "section": "entretenimiento",
+      "url": "https://www.eltiempo.com/rss/cultura_entretenimiento.xml"
+    }
+  ]
+}

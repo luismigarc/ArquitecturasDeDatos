@@ -1,0 +1,11 @@
+{
+  "run_id": "71f7d4e6-9402-4b22-9565-b99434823c8d",
+  "source": "el_tiempo",
+  "section": "entretenimiento",
+  "url": "https://www.eltiempo.com/rss/cultura_entretenimiento.xml",
+  "ingestion_timestamp_utc": "2026-10-22T12:06:00.594164+00:00",
+  "http_status": 200,
+  "content_hash_sha256": "9530c2ef08235169a45012d506e5b376a99043ddfaba04fbef4188c421688252",
+  "original_file": "/home/luismi/data-lake/data/bronze/source=el_tiempo/section=entretenimiento/ingestion_date=2026-10-22/run_id=71f7d4e6-9402-4b22-9565-b99434823c8d/rss.xml",
+  "status": "SUCCESS"
+}

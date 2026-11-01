@@ -1,0 +1,3 @@
+MySQL: 50 customers, 25 products, 100 orders, 253 order items
+MongoDB: 150 reviews, 500 navigation events; seed=42
+Injected bad rows: 34 (--bad-records=2); includes valid order headers that isolate subtotal defects

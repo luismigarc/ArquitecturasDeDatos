@@ -1,0 +1,17 @@
+SELECT
+    SUBSTR(n.published_original, 1, 10) AS fecha_publicacion,
+    e.entity_text AS entidad,
+    e.entity_type AS tipo_entidad,
+    COUNT(DISTINCT e.news_id) AS noticias_con_entidad
+FROM data_lake_noticias.news_entities e
+JOIN data_lake_noticias.news n
+    ON e.news_id = n.news_id
+   AND e.processing_date = n.processing_date
+WHERE e.processing_date = '2026-10-28'
+  AND n.processing_date = '2026-10-28'
+GROUP BY
+    SUBSTR(n.published_original, 1, 10),
+    e.entity_text,
+    e.entity_type
+ORDER BY noticias_con_entidad DESC
+LIMIT 20;

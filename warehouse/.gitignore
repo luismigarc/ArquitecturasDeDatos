@@ -1,0 +1,12 @@
+.env
+docker/.env
+*.pem
+infra/cli/.state.env
+infra/cli/.user_data.rendered.sh
+docker/logs/
+src/dbt/target/
+src/dbt/dbt_packages/
+src/dbt/logs/
+logs/
+__pycache__/
+*.pyc

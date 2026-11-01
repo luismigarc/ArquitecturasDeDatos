@@ -1,0 +1,17 @@
+{
+  "indicador": "ventas_totales_subtotal",
+  "origen_lineas": 259,
+  "origen_total": "7293860.26",
+  "cuarentena_lineas": 6,
+  "cuarentena_total": "70.00",
+  "esperado_lineas": 253,
+  "esperado_total": "7293790.26",
+  "intermediate_valid_lineas": 253,
+  "intermediate_valid_total": "7293790.26",
+  "marts_fct_sales_lineas": 253,
+  "marts_fct_sales_total": "7293790.26",
+  "ok": true,
+  "batch_id": "manual__20261031T165827Z",
+  "processing_id": "manual__20261031T165827Z",
+  "at_utc": "2026-10-31T17:23:32.270325+00:00"
+}
